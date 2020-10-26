@@ -544,9 +544,16 @@ pm.collections = {
                 return function (e) {
                     // Render thumbnail.
                     var data = e.currentTarget.result;
-                    var collection = JSON.parse(data);
-                    collection.id = guid();
-                    pm.collections.importCollectionData(collection);
+                    var collections = JSON.parse(data);
+                    // add support for importing collections
+                    if (!collections.collections){
+                        collections.collections=[collections];
+                    }
+                    for (i in collections.collections){
+                        var collection = collections.collections[i]
+                        collection.id = guid();
+                        pm.collections.importCollectionData(collection);
+                    }
                 };
             })(f);
 
